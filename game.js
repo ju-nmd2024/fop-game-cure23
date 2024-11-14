@@ -16,12 +16,19 @@ let end = false;
 function mouseClicked() {
   if (mouseOn === "start") {
     page = "game";
-    gameState = "Not Started";
   } else if (mouseOn === "rules") {
     page = "rules";
   } else if (mouseOn === "back") {
     page = "start";
+  } else if (mouseOn === "back home") {
+    page = "start";
+    gameState = "Not Started";
+  } else if (mouseOn === "play again") {
+    page = "game";
+    gameState = "Not Started";
+    mouseOn = "start";
   }
+
   if (end === true) {
     page = "results";
     end = false;
@@ -114,7 +121,7 @@ function resultsPage() {
 
   push();
   if (gameState === "Victory") {
-    background(0, 255, 0);
+    background(0, 180, 0);
 
     text("YOU WON!", 300, 150);
     textSize(24);
@@ -126,7 +133,11 @@ function resultsPage() {
     diamond();
     pop();
   } else if (gameState === "Crashed") {
-    background(255, 0, 0);
+    background(180, 0, 0);
+
+    text("YOU LOST!", 300, 150);
+    textSize(24);
+    text("the diamond is not yours", 300, 200);
   }
   fill(255, 255, 255);
   rect(330, 400, 180, 60, 10);
@@ -144,14 +155,14 @@ function resultsPage() {
     400 <= mouseY &&
     mouseY <= 400 + 60
   ) {
-    mouseOn = "start";
+    mouseOn = "play again";
   } else if (
     330 <= mouseX &&
     mouseX <= 330 + 180 &&
     480 <= mouseY &&
     mouseY <= 480 + 60
   ) {
-    mouseOn = "back";
+    mouseOn = "back home";
   }
 }
 
