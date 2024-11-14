@@ -5,19 +5,170 @@ function setup() {
 let characterX = 0;
 let characterY = 0;
 let velocityY = 1;
-let acceleration = 0.2;
+let acceleration = 0.5;
 
 let gameState = "Not Started";
+let page = "start";
+let mouseOn = "nothing";
+
+let end = false;
+
+function mouseClicked() {
+  if (mouseOn === "start") {
+    page = "game";
+    gameState = "Not Started";
+  } else if (mouseOn === "rules") {
+    page = "rules";
+  } else if (mouseOn === "back") {
+    page = "start";
+  }
+  if (end === true) {
+    page = "results";
+    end = false;
+  }
+}
+
+function startPage() {
+  push();
+  background(150, 150, 50);
+
+  noStroke();
+  fill(255, 255, 255);
+  rect(120, 400, 150, 60, 10);
+  rect(330, 400, 150, 60, 10);
+
+  fill(0, 0, 0);
+  textSize(18);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text("START", 195, 430);
+  text("RULES", 405, 430);
+  pop();
+
+  if (
+    120 <= mouseX &&
+    mouseX <= 120 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60
+  ) {
+    mouseOn = "start";
+  } else if (
+    330 <= mouseX &&
+    mouseX <= 330 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60
+  ) {
+    mouseOn = "rules";
+  } else {
+    mouseOn = "nothing";
+  }
+}
+
+function rulesPage() {
+  push();
+  noStroke();
+  fill(255, 255, 255, 100);
+  rect(100, 100, 400, 400, 30);
+  rect(150, 140, 300, 60, 10);
+
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+
+  textSize(28);
+  fill(150, 0, 0);
+  text("how to play...", 200, 150, 200, 50);
+
+  textSize(18);
+  fill(0, 0, 0);
+  text(
+    "Use the arrow keys of your keyboard to control the descend of Tom. If you crash on the diamond case the alarm goes off and you lose. If you can land softly on the case you win",
+    130,
+    200,
+    340,
+    250
+  );
+
+  fill(255, 255, 255);
+  rect(230, 400, 150, 60, 10);
+
+  fill(0, 0, 0);
+  textSize(18);
+  text("BACK", 305, 430);
+
+  if (
+    230 <= mouseX &&
+    mouseX <= 230 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60
+  ) {
+    mouseOn = "back";
+  }
+  pop();
+}
+
+function resultsPage() {
+  noStroke();
+  textStyle(BOLD);
+  textSize(60);
+  textAlign(CENTER, CENTER);
+
+  push();
+  if (gameState === "Victory") {
+    background(0, 255, 0);
+
+    text("YOU WON!", 300, 150);
+    textSize(24);
+    text("the diamond is yours", 300, 200);
+
+    push();
+    translate(-450, -600);
+    scale(2);
+    diamond();
+    pop();
+  } else if (gameState === "Crashed") {
+    background(255, 0, 0);
+  }
+  fill(255, 255, 255);
+  rect(330, 400, 180, 60, 10);
+  rect(330, 480, 180, 60, 10);
+
+  fill(0, 0, 0);
+  textSize(18);
+  text("PLAY AGAIN", 420, 430);
+  text("BACK home", 420, 510);
+  pop();
+
+  if (
+    330 <= mouseX &&
+    mouseX <= 330 + 180 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60
+  ) {
+    mouseOn = "start";
+  } else if (
+    330 <= mouseX &&
+    mouseX <= 330 + 180 &&
+    480 <= mouseY &&
+    mouseY <= 480 + 60
+  ) {
+    mouseOn = "back";
+  }
+}
 
 function gameBackground() {
   fill(0);
+
+  // cases bases
   rect(50, 492, 100, 108);
   rect(450, 492, 100, 108);
+
+  //rope barriers top details
   ellipse(170, 480, 20);
   ellipse(430, 480, 20);
   rect(420, 490, 20, 7);
   rect(160, 490, 20, 7);
 
+  // corners of large rectangular frame
   push();
   translate(80, 160);
   arc(0, 0, 30, 30, HALF_PI, 0);
@@ -41,18 +192,24 @@ function gameBackground() {
   noFill();
   strokeWeight(6);
   stroke(0);
+
+  // clear cases
   rect(50, 420, 100, 65);
   rect(450, 420, 100, 65);
 
+  // rope barriers
   arc(300, 500, 260, 50, 0, PI);
   arc(40, 500, 260, 50, 0, PI);
   arc(560, 500, 260, 50, 0, PI);
+
+  // painting frames and poles for rope barriers
   strokeWeight(15);
   rect(80, 160, 300, 200);
+  ellipse(550, 270, 110, 150);
   line(170, 500, 170, 600);
   line(430, 500, 430, 600);
-  ellipse(550, 270, 110, 150);
 
+  // paintings hanging-strings and details
   strokeWeight(2);
   triangle(230, 120, 210, 160, 250, 160);
   triangle(550, 140, 535, 200, 565, 200);
@@ -62,9 +219,11 @@ function gameBackground() {
 }
 
 function diamond() {
+  // case base
   fill(220, 220, 220);
   rect(250, 550, 100, 50);
 
+  // clear case
   push();
   noFill();
   strokeWeight(6);
@@ -72,6 +231,7 @@ function diamond() {
   rect(250, 470, 100, 70);
   pop();
 
+  // diamond
   noStroke();
   fill(200, 0, 0);
   rect(272.5, 485, 55, 15);
@@ -304,70 +464,90 @@ function character(x, y) {
 function draw() {
   background(50);
 
-  //x = 500;
-  // y = 500;
+  if (page === "start") {
+    startPage();
+  } else if (page === "rules") {
+    rulesPage();
+  } else if (page === "game") {
+    gameBackground();
+    character(characterX, characterY);
+    diamond();
 
-  gameBackground();
-  character(characterX, characterY);
-  diamond();
+    if (gameState === "Not Started") {
+      characterX = 500;
+      characterY = 100;
+      velocityY = 1;
+      acceleration = 0.5;
 
-  if (gameState === "Not Started") {
-    characterX = 500;
-    characterY = 100;
-    fill(0);
-    rect(0, 0, 600, 600);
-    noStroke();
-    fill(100, 200, 10);
-    textStyle(BOLD);
-    textSize(18);
-    textAlign(CENTER, CENTER);
-    text("click on one of the arrow keys to start the game...", 300, 300);
-    if (keyIsDown(37) || keyIsDown(38) || keyIsDown(39) || keyIsDown(40)) {
-      gameState = "Game On";
-    }
-  } else if (gameState === "Game On") {
-    if (keyIsDown(38)) {
-      acceleration = -0.25;
-    } else {
-      acceleration = 0.2;
-    }
-
-    velocityY = velocityY + acceleration;
-    characterY = characterY + velocityY;
-
-    if (keyIsDown(37)) {
-      characterX = characterX - 4;
-    } else if (keyIsDown(39)) {
-      characterX = characterX + 4;
-    }
-
-    if (characterY > 680) {
-      //console.log(velocityY);
-      if (velocityY < 10) {
-        gameState = "Victory";
-      } else if (velocityY >= 1) {
-        gameState = "Crashed";
+      fill(0, 0, 0, 200);
+      rect(0, 0, 600, 600);
+      noStroke();
+      fill(100, 200, 10);
+      textStyle(BOLD);
+      textSize(18);
+      textAlign(CENTER, CENTER);
+      text("click on one of the arrow keys to start the game...", 300, 300);
+      if (keyIsDown(37) || keyIsDown(38) || keyIsDown(39) || keyIsDown(40)) {
+        gameState = "Game On";
       }
+    } else if (gameState === "Game On") {
+      if (keyIsDown(38)) {
+        acceleration = -0.8;
+      } else {
+        acceleration = 0.5;
+      }
+
+      velocityY = velocityY + acceleration;
+      characterY = characterY + velocityY;
+
+      if (keyIsDown(37)) {
+        characterX = characterX - 4;
+      } else if (keyIsDown(39)) {
+        characterX = characterX + 4;
+      }
+
+      if (characterY > 680) {
+        //console.log(velocityY);
+        if (velocityY < 10) {
+          gameState = "Victory";
+        } else if (velocityY >= 1) {
+          gameState = "Crashed";
+        }
+      }
+    } else if (gameState === "Victory") {
+      end = true;
+      fill(0, 255, 0, 50);
+      rect(0, 0, 600, 600);
+
+      fill(255, 255, 255);
+      textStyle(BOLD);
+      textSize(18);
+      textAlign(CENTER, CENTER);
+      text("u won :)", 300, 300);
+
+      textStyle(ITALIC);
+      textSize(10);
+      textAlign(CENTER, CENTER);
+      text("...click to go to results...", 300, 325);
+      //console.log("alive");
+    } else if (gameState === "Crashed") {
+      end = true;
+      fill(255, 0, 0, 50);
+      rect(0, 0, 600, 600);
+
+      fill(255, 255, 255);
+      textStyle(BOLD);
+      textSize(18);
+      textAlign(CENTER, CENTER);
+      text("u lost :(", 300, 300);
+
+      textStyle(ITALIC);
+      textSize(10);
+      textAlign(CENTER, CENTER);
+      text("...click to go to results...", 300, 325);
+      //console.log("die");
     }
-  } else if (gameState === "Victory") {
-    fill(0, 255, 0, 50);
-    rect(0, 0, 600, 600);
-
-    fill(255, 255, 255);
-    textStyle(BOLD);
-    textSize(18);
-    textAlign(CENTER, CENTER);
-    text("u won :)", 300, 300);
-    console.log("alive");
-  } else if (gameState === "Crashed") {
-    fill(255, 0, 0, 50);
-    rect(0, 0, 600, 600);
-
-    fill(255, 255, 255);
-    textStyle(BOLD);
-    textSize(18);
-    textAlign(CENTER, CENTER);
-    text("u lost :(", 300, 300);
-    console.log("die");
+  } else if (page === "results") {
+    resultsPage();
   }
 }
