@@ -41,8 +41,14 @@ function mouseClicked() {
 function startPage() {
   push();
   background(20, 150, 250);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
 
-  //
+  //title graphics
+  fill(0, 0, 0);
+  textSize(70);
+  text("MISSION",300, 200);
+  text("IMPOSSIBLE",300, 270);
 
   // start and roles buttons
   noStroke();
@@ -52,8 +58,6 @@ function startPage() {
 
   fill(0, 0, 0);
   textSize(18);
-  textStyle(BOLD);
-  textAlign(CENTER, CENTER);
   text("START", 195, 430);
   text("RULES", 405, 430);
   pop();
