@@ -9,23 +9,39 @@ let velocityY = 1;
 let acceleration = 0.5;
 
 // variables to change game page
-let gameState = "Crashed";
+let gameState = "Not Started";
 let page = "start";
 let mouseOn = "nothing";
 let end = false;
 
 // functions that changes the page state if the right button is clicked
 function mouseClicked() {
-  if (mouseOn === "start") {
+
+  if (page === "start" && 120 <= mouseX &&
+    mouseX <= 120 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60) {
     page = "game";
-  } else if (mouseOn === "rules") {
+  } else if (page === "start" && 330 <= mouseX &&
+    mouseX <= 330 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60) {
     page = "rules";
-  } else if (mouseOn === "back") {
+  } else if (page === "rules" && 230 <= mouseX &&
+    mouseX <= 230 + 150 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60) {
     page = "start";
-  } else if (mouseOn === "back home") {
+  } else if (page === "results" && 330 <= mouseX &&
+    mouseX <= 330 + 180 &&
+    480 <= mouseY &&
+    mouseY <= 480 + 60) {
     page = "start";
     gameState = "Not Started";
-  } else if (mouseOn === "play again") {
+  } else if (page === "results" && 330 <= mouseX &&
+    mouseX <= 330 + 180 &&
+    400 <= mouseY &&
+    mouseY <= 400 + 60) {
     page = "game";
     gameState = "Not Started";
     mouseOn = "start";
@@ -36,6 +52,7 @@ function mouseClicked() {
     page = "results";
     
   }
+
 }
 
 function startPage() {
@@ -62,24 +79,6 @@ function startPage() {
   text("RULES", 405, 430);
   pop();
 
-  // check if mouse position on top of button
-  if (
-    120 <= mouseX &&
-    mouseX <= 120 + 150 &&
-    400 <= mouseY &&
-    mouseY <= 400 + 60
-  ) {
-    mouseOn = "start";
-  } else if (
-    330 <= mouseX &&
-    mouseX <= 330 + 150 &&
-    400 <= mouseY &&
-    mouseY <= 400 + 60
-  ) {
-    mouseOn = "rules";
-  } else {
-    mouseOn = "nothing";
-  }
 }
 
 function rulesPage() {
@@ -101,10 +100,10 @@ function rulesPage() {
   textSize(18);
   fill(0, 0, 0);
   text(
-    "Use the space key of your keyboard to control the descend of Tom. If you crash on the diamond case the alarm goes off and you lose. If you can get to the diamond softly you win",
-    130,
-    200,
-    340,
+    "Use the space key of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
+    140,
+    180,
+    320,
     250
   );
 
@@ -116,15 +115,6 @@ function rulesPage() {
   textSize(18);
   text("BACK", 305, 430);
 
-  // check if mouse position on top of button
-  if (
-    230 <= mouseX &&
-    mouseX <= 230 + 150 &&
-    400 <= mouseY &&
-    mouseY <= 400 + 60
-  ) {
-    mouseOn = "back";
-  }
   pop();
 }
 
@@ -157,7 +147,7 @@ function gamePage(){
     
   }else if(gameState === "Game On"){
 
-    // what happens to the accelleration if you click or not,
+    // what happens to the accelleration if you click space or not,
     if (keyIsDown(32)) {
         acceleration = -0.8;
       } else {
@@ -180,6 +170,7 @@ function gamePage(){
       } else if (keyIsDown(39)) {
         characterX = characterX + 4;
       }*/
+
 
     //change the character positions
     velocityY = velocityY + acceleration;
@@ -308,23 +299,6 @@ function resultsPage() {
   text("BACK HOME", 420, 510);
   pop();
 
-
-  // check if mouse position is on back home or play again buttons
-  if (
-    330 <= mouseX &&
-    mouseX <= 330 + 180 &&
-    400 <= mouseY &&
-    mouseY <= 400 + 60
-  ) {
-    mouseOn = "play again";
-  } else if (
-    330 <= mouseX &&
-    mouseX <= 330 + 180 &&
-    480 <= mouseY &&
-    mouseY <= 480 + 60
-  ) {
-    mouseOn = "back home";
-  } //else {mouse= "nothing"; }
 }
 
 function gameBackground() {
