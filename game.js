@@ -5,58 +5,74 @@ function setup() {
 // variables for the character movement
 let characterX = 0;
 let characterY = 0;
+let characterScale = 0.6;
 let velocityY = 1;
 let acceleration = 0.5;
 
 //variables for the diamond movement
-let diamondSpeed=5;
-let diamondX=250;
+let diamondSpeed = 5;
+let diamondX = 250;
+
+// manually change variable from "space key" to "arrow keys"
+//to play with a stationary landing platform of with a moving diamond and character
+let control = "space key";
 
 // variables to change game page
 let gameState = "Not Started";
 let page = "start";
-let mouseOn = "nothing";
-let end = false;
+//let end = false;
 
 // functions that changes the page state if the right button is clicked
 function mouseClicked() {
-
-  if (page === "start" && 120 <= mouseX &&
+  if (
+    page === "start" &&
+    120 <= mouseX &&
     mouseX <= 120 + 150 &&
     400 <= mouseY &&
-    mouseY <= 400 + 60) {
+    mouseY <= 400 + 60
+  ) {
     page = "game";
-  } else if (page === "start" && 330 <= mouseX &&
+  } else if (
+    page === "start" &&
+    330 <= mouseX &&
     mouseX <= 330 + 150 &&
     400 <= mouseY &&
-    mouseY <= 400 + 60) {
+    mouseY <= 400 + 60
+  ) {
     page = "rules";
-  } else if (page === "rules" && 230 <= mouseX &&
+  } else if (
+    page === "rules" &&
+    230 <= mouseX &&
     mouseX <= 230 + 150 &&
     400 <= mouseY &&
-    mouseY <= 400 + 60) {
+    mouseY <= 400 + 60
+  ) {
     page = "start";
-  } else if (page === "results" && 330 <= mouseX &&
+  } else if (
+    page === "results" &&
+    330 <= mouseX &&
     mouseX <= 330 + 180 &&
     480 <= mouseY &&
-    mouseY <= 480 + 60) {
+    mouseY <= 480 + 60
+  ) {
     page = "start";
     gameState = "Not Started";
-  } else if (page === "results" && 330 <= mouseX &&
+  } else if (
+    page === "results" &&
+    330 <= mouseX &&
     mouseX <= 330 + 180 &&
     400 <= mouseY &&
-    mouseY <= 400 + 60) {
+    mouseY <= 400 + 60
+  ) {
     page = "game";
     gameState = "Not Started";
-    mouseOn = "start";
   }
 
-  if (end === true) {
+  //condition for pre-results screen
+  /* if (end === true) {
     end = false;
-    page = "results";
-    
-  }
-
+    page = "results"; 
+  } */
 }
 
 function startPage() {
@@ -68,10 +84,13 @@ function startPage() {
   //title graphics
   fill(0, 0, 0);
   textSize(70);
-  text("MISSION",300, 200);
-  text("IMPOSSIBLE",300, 270);
+  text("MISSION", 300, 200);
+  text("IMPOSSIBLE", 300, 270);
 
-  // start and roles buttons
+  textSize(25);
+  text("Will you be able to reach the diamond?", 300, 320);
+
+  // start and rules buttons
   noStroke();
   fill(255, 255, 255);
   rect(120, 400, 150, 60, 10);
@@ -82,11 +101,9 @@ function startPage() {
   text("START", 195, 430);
   text("RULES", 405, 430);
   pop();
-
 }
 
 function rulesPage() {
-
   //background graphics and text
   push();
   noStroke();
@@ -103,13 +120,23 @@ function rulesPage() {
 
   textSize(18);
   fill(0, 0, 0);
-  text(
-    "Use the space key of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
-    140,
-    180,
-    320,
-    250
-  );
+  if (control === "space key") {
+    text(
+      "Use the space key of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
+      140,
+      180,
+      320,
+      250
+    );
+  } else if (control === "arrow keys") {
+    text(
+      "Use the left, right and up arrow keys of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
+      140,
+      180,
+      320,
+      250
+    );
+  }
 
   // back button
   fill(255, 255, 255);
@@ -122,56 +149,48 @@ function rulesPage() {
   pop();
 }
 
-function gamePage(){
-
-
+function gamePage() {
   if (gameState === "Not Started") {
-
     // re-set character variables
-      characterX = 500;
-      characterY = 100;
-      velocityY = 1;
-      acceleration = 0.5;
+    characterX = 500;
+    characterY = 100;
+    velocityY = 1;
+    acceleration = 0.5;
 
     // transparent screen - click space key to start
-      fill(0, 0, 0, 200);
-      rect(0, 0, 600, 600);
-      noStroke();
-      fill(100, 200, 10);
-      textStyle(BOLD);
-      textSize(18);
-      textAlign(CENTER, CENTER);
+    fill(0, 0, 0, 200);
+    rect(0, 0, 600, 600);
+    noStroke();
+    fill(100, 200, 10);
+    textStyle(BOLD);
+    textSize(18);
+    textAlign(CENTER, CENTER);
+
+    if (control === "space key") {
       text("click on the space key to start the game...", 300, 300);
-    
-    // press on space key to start playing
-    if(keyIsDown(32)){
-      gameState = "Game On";
-    }
 
-    // press one of the arrows to start
-    /* if (keyIsDown(37) || keyIsDown(38) || keyIsDown(39) || keyIsDown(40)) {
-      gameState = "Game On";
-    } */
-
-    
-  }else if(gameState === "Game On"){
-
-    // diamond movements
-    /* diamondX=diamondX+diamondSpeed;
-    if(diamondX>=500 || diamondX<=0){
-      diamondSpeed=diamondSpeed*-1;
-    } */
-
-    // character movements
-    // what happens to the accelleration if you click space or not,
-    if (keyIsDown(32)) {
-        acceleration = -0.8;
-      } else {
-        acceleration = 0.5;
+      // press on space key to start playing
+      if (keyIsDown(32)) {
+        gameState = "Game On";
       }
-  
-    // arrow keys controls
-      /* if (keyIsDown(38)) {
+    } else if (control === "arrow keys") {
+      text("click on one of the arrow keys to start the game...", 300, 300);
+
+      // press one of the arrows to start
+      if (keyIsDown(37) || keyIsDown(38) || keyIsDown(39) || keyIsDown(40)) {
+        gameState = "Game On";
+      }
+    }
+  } else if (gameState === "Game On") {
+    if (control === "arrow keys") {
+      // diamond movements
+      diamondX = diamondX + diamondSpeed;
+      if (diamondX >= 500 || diamondX <= 0) {
+        diamondSpeed = diamondSpeed * -1;
+      }
+
+      // arrow keys controls
+      if (keyIsDown(38)) {
         acceleration = -0.8;
       } else {
         acceleration = 0.5;
@@ -181,40 +200,54 @@ function gamePage(){
         characterX = characterX - 4;
       } else if (keyIsDown(39)) {
         characterX = characterX + 4;
-      }  */
+      }
 
+      // make character land on case (doesnt work yet)
+      if (characterY > 680) {
+        if (
+          velocityY < 10 &&
+          characterX * characterScale >= diamondX - 10 &&
+          characterX * characterScale <= diamondX + 100 + 10
+        ) {
+          gameState = "Victory";
+          console.log("character: " + characterX);
+          console.log("diamond: " + diamondX);
+        } else {
+          gameState = "Crashed";
+          console.log("character: " + characterX);
+          console.log("diamond: " + diamondX);
+        }
+        page = "results";
+      }
+    } else if (control === "space key") {
+      // character movements
+      // what happens to the accelleration if you click space or not,
+      if (keyIsDown(32)) {
+        acceleration = -0.8;
+      } else {
+        acceleration = 0.5;
+      }
 
-    //change the character positions
-    velocityY = velocityY + acceleration;
-    characterY = characterY + velocityY;
-    
-    // stop the game if character reaches diamond height
-    if (characterY > 680) {
+      // stop the game if character reaches diamond height
+      if (characterY > 680) {
         //console.log(velocityY);
         if (velocityY < 10) {
           gameState = "Victory";
         } else if (velocityY >= 1) {
           gameState = "Crashed";
         }
+        page = "results";
+      }
     }
 
+    //change the character positions
+    velocityY = velocityY + acceleration;
+    characterY = characterY + velocityY;
 
-    if (characterY > 680) {
-      //console.log(velocityY);
-      if (velocityY < 10 ) {
-        gameState = "Victory";
-      } else if (velocityY >= 1) {
-        gameState = "Crashed";
-      }
-  }
-
-    // make character land on case (doesnt work yet)
-    /* if (velocityY < 10 && diamondX<=characterX-50 && characterX+50<=diamondX+100 ||velocityY < 10 && diamondX<=characterX+50 && characterX-50<=diamondX-100) */
-
-
+    //pre-result page results
     // graphics changes if you win the game
-  } else if (gameState === "Victory") {
-      end = true;
+  } /* else if (gameState === "Victory") {
+       end = true;
       fill(0, 255, 0, 50);
       rect(0, 0, 600, 600);
 
@@ -247,12 +280,12 @@ function gamePage(){
       textAlign(CENTER, CENTER);
       text("...click to go to results...", 300, 325);
       //console.log("die");
-    }
+    } */
 }
 
 function resultsPage() {
-
   // graphics set up
+  fill(255, 255, 255);
   noStroke();
   textStyle(BOLD);
   textSize(60);
@@ -274,14 +307,14 @@ function resultsPage() {
     diamond(250);
     pop();
 
-  // graphics if you lost
+    // graphics if you lost
   } else if (gameState === "Crashed") {
     background(180, 0, 0);
 
     text("YOU LOST!", 300, 150);
     textSize(24);
     text("the diamond is not yours", 300, 200);
-    
+
     push();
     scale(1.2);
     push();
@@ -324,10 +357,10 @@ function resultsPage() {
   text("PLAY AGAIN", 420, 430);
   text("BACK HOME", 420, 510);
   pop();
-
 }
 
 function gameBackground() {
+  push();
   fill(0);
 
   // cases bases
@@ -388,9 +421,11 @@ function gameBackground() {
   rect(400, 330, 30, 20);
 
   pop();
+  pop();
 }
 
 function diamond(x) {
+  push();
   // case base
   fill(220, 220, 220);
   rect(x, 550, 100, 50);
@@ -406,21 +441,23 @@ function diamond(x) {
   // diamond
   noStroke();
   fill(200, 0, 0);
-  rect(x+22.5, 485, 55, 15);
-  triangle(x+50, 530, x+90, 500, x+10, 500);
+  rect(x + 22.5, 485, 55, 15);
+  triangle(x + 50, 530, x + 90, 500, x + 10, 500);
   fill(250, 50, 50);
-  triangle(x+10, 500, x+35, 500, x+22.5, 485);
-  triangle(x+35, 500, x+65, 500, x+50, 485);
-  triangle(x+65, 500, x+90, 500, x+77.5, 485);
+  triangle(x + 10, 500, x + 35, 500, x + 22.5, 485);
+  triangle(x + 35, 500, x + 65, 500, x + 50, 485);
+  triangle(x + 65, 500, x + 90, 500, x + 77.5, 485);
   fill(255, 150, 120);
-  triangle(x+50, 530, x+65, 500, x+35, 500);
+  triangle(x + 50, 530, x + 65, 500, x + 35, 500);
+  pop();
 }
 
 function character(x, y) {
+  push();
   //to get outline colour subtract dark from every fill colour
   const dark = 75;
   push();
-  scale(0.6);
+  scale(characterScale);
   //light beam
   push();
   fill(255, 255, 240, 90);
@@ -631,6 +668,7 @@ function character(x, y) {
   fill(255 - dark, 200 - dark, 190 - dark);
   ellipse(x, y - 15, 20, 10);
   pop();
+  pop();
 }
 
 function draw() {
@@ -644,8 +682,6 @@ function draw() {
     gameBackground();
     character(characterX, characterY);
     diamond(diamondX);
-
-
 
     gamePage();
   } else if (page === "results") {
