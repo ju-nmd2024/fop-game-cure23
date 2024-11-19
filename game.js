@@ -20,7 +20,7 @@ let control = "space key";
 
 // variables to change game page
 let gameState = "Not Started";
-let page = "rules";
+let page = "start";
 //let end = false;
 
 // functions that changes the page state if the right button is clicked
@@ -55,8 +55,8 @@ function mouseClicked() {
     page === "rules" &&
     230 <= mouseX &&
     mouseX <= 230 + 150 &&
-    400 <= mouseY &&
-    mouseY <= 400 + 60
+    470 <= mouseY &&
+    mouseY <= 470 + 60
   ) {
     page = "start";
   } else if (
