@@ -210,12 +210,10 @@ function gamePage() {
           characterX * characterScale <= diamondX + 100 + 10
         ) {
           gameState = "Victory";
-          console.log("character: " + characterX);
-          console.log("diamond: " + diamondX);
+          
         } else {
           gameState = "Crashed";
-          console.log("character: " + characterX);
-          console.log("diamond: " + diamondX);
+        
         }
         page = "results";
       }
