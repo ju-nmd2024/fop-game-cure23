@@ -1,5 +1,6 @@
 function setup() {
   createCanvas(600, 600);
+  frameRate(30);
   noStroke();
 }
 
@@ -171,6 +172,7 @@ function gamePage() {
     characterY = 100;
     velocityY = 1;
     acceleration = 0.5;
+    diamondX = 250;
 
     // transparent screen - click space key to start
     fill(0, 0, 0, 200);
