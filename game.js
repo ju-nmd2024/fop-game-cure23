@@ -1,5 +1,6 @@
 function setup() {
   createCanvas(600, 600);
+  noStroke();
 }
 
 // variables for the character movement
@@ -19,25 +20,35 @@ let control = "space key";
 
 // variables to change game page
 let gameState = "Not Started";
-let page = "start";
+let page = "rules";
 //let end = false;
 
 // functions that changes the page state if the right button is clicked
 function mouseClicked() {
   if (
     page === "start" &&
-    120 <= mouseX &&
-    mouseX <= 120 + 150 &&
+    100 <= mouseX &&
+    mouseX <= 100 + 180 &&
     400 <= mouseY &&
     mouseY <= 400 + 60
   ) {
+    control = "space key";
     page = "game";
   } else if (
     page === "start" &&
     330 <= mouseX &&
-    mouseX <= 330 + 150 &&
+    mouseX <= 330 + 180 &&
     400 <= mouseY &&
     mouseY <= 400 + 60
+  ) {
+    control = "arrow keys";
+    page = "game";
+  }else if (
+    page === "start" &&
+    225 <= mouseX &&
+    mouseX <= 225 + 150 &&
+    500 <= mouseY &&
+    mouseY <= 500 + 60
   ) {
     page = "rules";
   } else if (
@@ -93,13 +104,15 @@ function startPage() {
   // start and rules buttons
   noStroke();
   fill(255, 255, 255);
-  rect(120, 400, 150, 60, 10);
-  rect(330, 400, 150, 60, 10);
+  rect(100, 400, 180, 60, 10);
+  rect(330, 400, 180, 60, 10);
+  rect(225, 500, 150, 60, 10);
 
   fill(0, 0, 0);
   textSize(18);
-  text("START", 195, 430);
-  text("RULES", 405, 430);
+  text("PLAY w/SPACE", 190, 430);
+  text("PLAY w/ARROW", 425, 430);
+  text("RULES", 300, 530);
   pop();
 }
 
@@ -118,33 +131,35 @@ function rulesPage() {
   fill(150, 0, 0);
   text("HOW TO PLAY...", 180, 150, 250, 50);
 
-  textSize(18);
+  textSize(14);
   fill(0, 0, 0);
-  if (control === "space key") {
-    text(
-      "Use the space key of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
+  text(
+    "Control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
+    140,
+    120,
+    320,
+    250
+    );
+    text("Select PLAY w/SPACE to use the space bar to slow down the vertical descend onto a stationary platform.",
       140,
-      180,
+      200,
       320,
       250
-    );
-  } else if (control === "arrow keys") {
-    text(
-      "Use the left, right and up arrow keys of your keyboard to control the descend of Tom. If you crash on the diamond case you lose. If you can get to the diamond softly you win",
-      140,
-      180,
-      320,
-      250
-    );
-  }
+      );
+    text("Select PLAY w/ARROWS to use the arrows to slow down the descend, and move left and right to land onto a moving platform.",
+        140,
+        280,
+        320,
+        250
+        );
 
   // back button
   fill(255, 255, 255);
-  rect(230, 400, 150, 60, 10);
+  rect(230, 470, 150, 60, 10);
 
   fill(0, 0, 0);
   textSize(18);
-  text("BACK", 305, 430);
+  text("BACK", 305, 500);
 
   pop();
 }
